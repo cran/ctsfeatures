@@ -8,7 +8,7 @@ auxiliary_cramers_vi <- function(series, categories, max_lag = 10, alpha = 0.05)
 
   for (i in 1 : max_lag) {
 
-    values_cramers_vi[i] <- cramers_vi(series = series, lag = i,
+    values_cramers_vi[i] <- auxiliary_cramers_vi_function(series = series, lag = i,
                                        categories = categories)
 
   }

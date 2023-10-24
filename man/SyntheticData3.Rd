@@ -7,7 +7,7 @@
 \format{
 A \code{list} with two elements, which are:
 \describe{
-\item{\code{data}}{A list with 80 MTS.}
+\item{\code{data}}{A list with 80 CTS.}
 \item{\code{classes}}{A numeric vector indicating the corresponding classes associated with the elements in \code{data}.}
 }
 }
@@ -15,13 +15,13 @@ A \code{list} with two elements, which are:
 data(SyntheticData3)
 }
 \description{
-Synthetic dataset containing 80 MTS generated from four
+Synthetic dataset containing 80 CTS generated from four
 different generating processes.
 }
 \details{
 Each element in \code{data} is a CTS of length 600 containing three
 different categories. Series 1-20, 21-40, 41-60 and 61-80 were generated from
-NDARMA processes with different orders and vectors of coefficients.
+NDARMA processes with different orders and vectors of coefficients (see Scenario 3 in \insertCite{lopez2023hard;textual}{ctsfeatures}).
 Therefore, there are 4 different classes in the dataset.
 }
 \references{

@@ -10,7 +10,7 @@ auxiliary_cohens_kappa <- function(series, categories, max_lag = 10, alpha = 0.0
 
   for (i in 1 : max_lag) {
 
-    values_cohens_kappa[i] <- cohens_kappa(series = series, lag = i,
+    values_cohens_kappa[i] <- auxiliary_cohens_kappa_function(series = series, lag = i,
                                        categories = categories)
 
   }
