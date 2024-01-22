@@ -7,7 +7,6 @@
 \usage{
 plot_ccc(
   series,
-  categories,
   mu_t,
   lcl_t,
   ucl_t,
@@ -17,10 +16,9 @@ plot_ccc(
 )
 }
 \arguments{
-\item{series}{A CTS.}
-
-\item{categories}{A vector of type factor containing the corresponding
-categories.}
+\item{series}{An object of type \code{tsibble} (see R package \code{tsibble}), whose column named Values
+contains the values of the corresponding CTS. This column must be of class \code{factor} and its levels
+must be determined by the range of the CTS.}
 
 \item{mu_t}{The mean of the process measuring the cycle lengths.}
 
@@ -52,12 +50,11 @@ lower and upper individual control limits, respectively. Note that an
 out-of-control alarm is signalled if \eqn{T_t<-1} or \eqn{T_t>1}.
 }
 \examples{
-cycle_cc <- plot_ccc(series = SyntheticData1$data[[1]],
-categories = factor(c('1', '2', '3')), mu_t = c(1, 1.5, 1),
+sequence_1 <- SyntheticData1[which(SyntheticData1$Series==1),]
+cycle_cc <- plot_ccc(series = sequence_1, mu_t = c(1, 1.5, 1),
 lcl_t = rep(10, 600), ucl_t = rep(10, 600)) # Representing
 # a control chart for the cycle lengths
-cycle_cc <- plot_ccc(series = SyntheticData1$data[[1]],
-categories = factor(c('1', '2', '3')), mu_t = c(1, 1.5, 1),
+cycle_cc <- plot_ccc(series = sequence_1, mu_t = c(1, 1.5, 1),
 lcl_t = rep(10, 600), ucl_t = rep(10, 600), plot = FALSE) # Computing the
 # corresponding standardized statistic
 }

@@ -5,13 +5,12 @@
 \alias{calculate_motifs}
 \title{Computes the relative frequency of motifs in a categorical time series}
 \usage{
-calculate_motifs(series, categories, motif_length)
+calculate_motifs(series, motif_length)
 }
 \arguments{
-\item{series}{A CTS.}
-
-\item{categories}{A vector of type factor containing the corresponding
-categories.}
+\item{series}{An object of type \code{tsibble} (see R package \code{tsibble}), whose column named Values
+contains the values of the corresponding CTS. This column must be of class \code{factor} and its levels
+must be determined by the range of the CTS.}
 
 \item{motif_length}{The length of the motif.}
 }
@@ -30,8 +29,8 @@ in the position \eqn{(i_1, i_2, \ldots, i_r)} being the relative frequency
 of the motif ``\eqn{i_1i_2 \cdots i_r}'' in the corresponding time series.
 }
 \examples{
-calculate_motifs(GeneticSequences$data[[1]],
-categories = factor(c('a', 'c', 'g', 't')), motif_length = 3)
+sequence_1 <- GeneticSequences[which(GeneticSequences$Series==1),]
+calculate_motifs(sequence_1, motif_length = 3)
 # Computing the relative frequencies of motifs of length 3 for the first
 # series in dataset GeneticSequences
 }

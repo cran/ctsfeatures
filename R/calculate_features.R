@@ -5,20 +5,19 @@
 #' \code{calculate_features} computes several features associated with a
 #' categorical time series or between a categorical and a real-valued time series
 #'
-#' @param series A CTS.
+#' @param series An object of type \code{tsibble} (see R package \code{tsibble}), whose column named Values
+#' contains the values of the corresponding CTS. This column must be of class \code{factor} and its levels
+#' must be determined by the range of the CTS.
 #' @param n_series A real-valued time series.
-#' @param categories A vector of type factor containing the corresponding
-#' categories.
 #' @param lag The considered lag (default is 1).
 #' @param type String indicating the feature one wishes to compute.
 #' @return The corresponding feature.
 #' @examples
-#' uc <- calculate_features(series = GeneticSequences$data[[1]],
-#' categories = factor(c('a', 'c', 'g', 't')), type = 'uncertainty_coefficient' )
+#' sequence_1 <- GeneticSequences[which(GeneticSequences$Series==1),]
+#' uc <- calculate_features(series = sequence_1, type = 'uncertainty_coefficient' )
 #' # Computing the uncertainty coefficient
 #' # for the first series in dataset GeneticSequences
-#' se <- calculate_features(series = GeneticSequences$data[[1]],
-#' categories = factor(c('a', 'c', 'g', 't')), type = 'spectral_envelope' )
+#' se <- calculate_features(series = sequence_1, type = 'spectral_envelope' )
 #' # Computing the spectral envelope
 #' # for the first series in dataset GeneticSequences
 #' @details
@@ -104,99 +103,101 @@
 #' }
 #' @export
 
-calculate_features <- function(series, n_series = NULL, categories, lag = 1, type = NULL) {
+calculate_features <- function(series, n_series = NULL, lag = 1, type = NULL) {
 
-  check_cts(series)
-  n_categories <- length(categories)
+  check_cts(series$Value)
+  series_length <- length(series$Value) # Series length
+  categories <- levels(series$Value)
+  n_cat <- length(categories) # Number of categories in the dataset
 
 
   if (type == 'gini_index') {
 
-    return(auxiliary_gini_index(series, categories))
+    return(auxiliary_gini_index(series))
 
   }
 
 
   if (type == 'entropy') {
 
-    return(auxiliary_entropy(series, categories))
+    return(auxiliary_entropy(series))
 
   }
 
 
   if (type == 'chebycheff_dispersion') {
 
-    return(auxiliary_chebycheff_dispersion(series, categories))
+    return(auxiliary_chebycheff_dispersion(series))
 
   }
 
 
   if (type == 'gk_tau') {
 
-    return(auxiliary_gk_tau(series, categories, lag = lag))
+    return(auxiliary_gk_tau(series, lag = lag))
 
   }
 
 
   if (type == 'gk_lambda') {
 
-    return(auxiliary_gk_lambda(series, categories, lag = lag))
+    return(auxiliary_gk_lambda(series, lag = lag))
 
   }
 
 
   if (type == 'uncertainty_coefficient') {
 
-    return(auxiliary_uncertainty_coefficient(series, categories, lag = lag))
+    return(auxiliary_uncertainty_coefficient(series, lag = lag))
 
   }
 
 
   if (type == 'pearson_measure') {
 
-    return(auxiliary_pearson_measure(series, categories, lag = lag))
+    return(auxiliary_pearson_measure(series, lag = lag))
 
   }
 
 
   if (type == 'phi2_measure') {
 
-    return(auxiliary_phi2_measure(series, categories, lag = lag))
+    return(auxiliary_phi2_measure(series, lag = lag))
 
   }
 
 
   if (type == 'sakoda_measure') {
 
-    return(auxiliary_sakoda_measure(series, categories, lag = lag))
+    return(auxiliary_sakoda_measure(series, lag = lag))
 
   }
 
 
   if (type == 'cramers_vi') {
 
-    return(auxiliary_cramers_vi_function(series, categories, lag = lag))
+    return(auxiliary_cramers_vi_function(series, lag = lag))
 
   }
 
 
   if (type == 'cohens_kappa') {
 
-    return(auxiliary_cohens_kappa_function(series, categories, lag = lag))
+    return(auxiliary_cohens_kappa_function(series, lag = lag))
 
   }
 
 
   if (type == 'total_correlation') {
 
-    return(auxiliary_total_correlation(series, categories, lag = lag))
+    return(auxiliary_total_correlation(series, lag = lag))
 
   }
 
 
   if (type == 'spectral_envelope') {
 
-    binarized_series <- binarization(series, categories = categories)
+    binarized_series <- binarization(series)
     return(auxiliary_spectral_envelope(binarized_series, plot = FALSE))
 
   }
@@ -204,14 +205,14 @@ calculate_features <- function(series, n_series = NULL, categories, lag = 1, typ
 
   if (type == 'total_mixed_correlation_1') {
 
-    return(auxiliary_total_mixed_correlation_1(series, n_series, categories, lag = lag))
+    return(auxiliary_total_mixed_correlation_1(series, n_series, lag = lag))
 
   }
 
 
   if (type == 'total_mixed_correlation_2') {
 
-    return(auxiliary_total_mixed_correlation_2(series, n_series, categories, lag = lag))
+    return(auxiliary_total_mixed_correlation_2(series, n_series, lag = lag))
 
   }
 

@@ -5,15 +5,14 @@
 \alias{joint_probabilities}
 \title{Computes the joint probabilities of a categorical time series}
 \usage{
-joint_probabilities(series, lag = 1, categories)
+joint_probabilities(series, lag = 1)
 }
 \arguments{
-\item{series}{A CTS.}
+\item{series}{An object of type \code{tsibble} (see R package \code{tsibble}), whose column named Values
+contains the values of the corresponding CTS. This column must be of class \code{factor} and its levels
+must be determined by the range of the CTS.}
 
 \item{lag}{The considered lag (default is 1).}
-
-\item{categories}{A vector of type factor containing the corresponding
-categories.}
 }
 \value{
 A matrix with the joint probabilities.
@@ -30,8 +29,8 @@ with \eqn{\widehat{p}_{ij}(l)=\frac{N_{ij}(l)}{T-l}}, where \eqn{N_{ij}(l)} is t
 of pairs \eqn{(\overline{X}_t, \overline{X}_{t-l})=(i,j)} in the realization \eqn{\overline{X}_t}.
 }
 \examples{
-matrix_jp <- joint_probabilities(series = GeneticSequences$data[[1]],
-categories = factor(c('a', 'c', 'g', 't'))) # Computing the matrix of
+sequence_1 <- GeneticSequences[which(GeneticSequences$Series==1),]
+matrix_jp <- joint_probabilities(series = sequence_1) # Computing the matrix of
 # joint probabilities for the first series in dataset GeneticSequences
 }
 \references{

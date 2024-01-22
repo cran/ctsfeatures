@@ -7,7 +7,6 @@
 \usage{
 plot_reg(
   series,
-  categories,
   title = "Rate evolution graph",
   linear_fit = FALSE,
   cat_res = NULL,
@@ -15,10 +14,9 @@ plot_reg(
 )
 }
 \arguments{
-\item{series}{A CTS.}
-
-\item{categories}{A vector of type factor containing the corresponding
-categories.}
+\item{series}{An object of type \code{tsibble} (see R package \code{tsibble}), whose column named Values
+contains the values of the corresponding CTS. This column must be of class \code{factor} and its levels
+must be determined by the range of the CTS.}
 
 \item{title}{The title of the graph.}
 
@@ -50,8 +48,8 @@ plot for each one of the components of \eqn{\overline{\boldsymbol C}_t}
 simultaneously in one graph.
 }
 \examples{
-reg <- plot_reg(GeneticSequences$data[[1]],
-categories = factor(c('a', 'c', 'g', 't'))) # Constructing the rate
+sequence_1 <- GeneticSequences[which(GeneticSequences$Series==1),]
+reg <- plot_reg(sequence_1) # Constructing the rate
 # evolution graph for the first time series in dataset GeneticSequences
 }
 \references{

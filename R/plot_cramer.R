@@ -5,9 +5,9 @@
 #' \code{plot_cramer} constructs a serial dependence plot of a categorical
 #' time series based on Cramer's vi
 #'
-#' @param series A CTS.
-#' @param categories A vector of type factor containing the corresponding
-#' categories.
+#' @param series An object of type \code{tsibble} (see R package \code{tsibble}), whose column named Values
+#' contains the values of the corresponding CTS. This column must be of class \code{factor} and its levels
+#' must be determined by the range of the CTS.
 #' @param max_lag The maximum lag represented in the plot (default is 10).
 #' @param alpha The significance level for the corresponding hypothesis test (default is 0.05).
 #' @param plot Logical. If \code{plot = TRUE} (default), returns the serial dependence
@@ -20,11 +20,10 @@
 #' returns a list with the values of Cramer's vi, the critical
 #' value and the corresponding p-values.
 #' @examples
-#' plot_cv <- plot_cramer(series = SyntheticData1$data[[1]],
-#' categories = factor(c(1, 2, 3)), max_lag = 3) # Representing
+#' sequence_1 <- SyntheticData1[which(SyntheticData1$Series==1),]
+#' plot_cv <- plot_cramer(series = sequence_1, max_lag = 3) # Representing
 #' # the serial dependence plot
-#' list_cv <- plot_cramer(series = SyntheticData1$data[[1]],
-#' categories = factor(c(1, 2, 3)), max_lag = 3, plot = FALSE) # Obtaining
+#' list_cv <- plot_cramer(series = sequence_1, max_lag = 3, plot = FALSE) # Obtaining
 #' # the values of Cramer's vi, the critical value and the p-values
 #' @details
 #' Constructs a serial dependence plot based on Cramer's vi, \eqn{\widehat{v}(l)},
@@ -42,15 +41,18 @@
 #' }
 #' @export
 
-plot_cramer <- function(series, categories, max_lag = 10, alpha = 0.05, plot = TRUE,
+plot_cramer <- function(series, max_lag = 10, alpha = 0.05, plot = TRUE,
                             title = 'Serial dependence plot', bar_width = 0.12,...) {
 
   x <- y <- NULL
-  check_cts(series)
-  auxiliary_list <- auxiliary_cramers_vi(series = series, categories = categories,
+  check_cts(series$Value)
+  series_length <- length(series$Value) # Series length
+  categories <- levels(series$Value)
+  n_cat <- length(categories) # Number of categories in the dataset
+  auxiliary_list <- auxiliary_cramers_vi(series = series,
                                          max_lag = max_lag, alpha = alpha)
   df_plot_1 <- data.frame(x = 1 : max_lag, y = auxiliary_list$values_cramers_vi)
-  df_plot_2 <- data.frame(x = 1 : (max_lag), y = rep(auxiliary_list$critical_value, max_lag))
+  df_plot_2 <- data.frame(x = 1 : max_lag, y = rep(auxiliary_list$critical_value, max_lag))
 
   plot_cramer <- ggplot2::ggplot(data = df_plot_1, mapping = ggplot2::aes(x = x, y = y)) +
     ggplot2::geom_bar(stat = "identity", position = "identity", width = bar_width, fill = 'orange') +

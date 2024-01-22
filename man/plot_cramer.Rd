@@ -7,7 +7,6 @@
 \usage{
 plot_cramer(
   series,
-  categories,
   max_lag = 10,
   alpha = 0.05,
   plot = TRUE,
@@ -17,10 +16,9 @@ plot_cramer(
 )
 }
 \arguments{
-\item{series}{A CTS.}
-
-\item{categories}{A vector of type factor containing the corresponding
-categories.}
+\item{series}{An object of type \code{tsibble} (see R package \code{tsibble}), whose column named Values
+contains the values of the corresponding CTS. This column must be of class \code{factor} and its levels
+must be determined by the range of the CTS.}
 
 \item{max_lag}{The maximum lag represented in the plot (default is 10).}
 
@@ -53,11 +51,10 @@ of the test based on the following asymptotic approximation (under the i.i.d. as
 and \eqn{r} is the number of categories in the time series.
 }
 \examples{
-plot_cv <- plot_cramer(series = SyntheticData1$data[[1]],
-categories = factor(c(1, 2, 3)), max_lag = 3) # Representing
+sequence_1 <- SyntheticData1[which(SyntheticData1$Series==1),]
+plot_cv <- plot_cramer(series = sequence_1, max_lag = 3) # Representing
 # the serial dependence plot
-list_cv <- plot_cramer(series = SyntheticData1$data[[1]],
-categories = factor(c(1, 2, 3)), max_lag = 3, plot = FALSE) # Obtaining
+list_cv <- plot_cramer(series = sequence_1, max_lag = 3, plot = FALSE) # Obtaining
 # the values of Cramer's vi, the critical value and the p-values
 }
 \references{

@@ -1,12 +1,11 @@
 
 
-auxiliary_phi2_measure <- function(series, lag = 1, categories, features = FALSE) {
+auxiliary_phi2_measure <- function(series, lag = 1, features = FALSE) {
 
-  check_cts(series)
-  vector_mp <- marginal_probabilities(series = series, categories = categories)
+  check_cts(series$Value)
+  vector_mp <- marginal_probabilities(series = series)
   matrix_mp <- vector_mp %*% t(vector_mp)
-  matrix_jp <- joint_probabilities(series = series, lag = lag,
-                                   categories = categories)
+  matrix_jp <- joint_probabilities(series = series, lag = lag)
   matrix_prev <- (matrix_jp - matrix_mp)^2
   matrix_combined <- matrix_prev/matrix_mp
 

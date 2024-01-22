@@ -3,14 +3,15 @@
 #' @description Categorical time series (CTS) of protein sequences from different
 #' species
 #' @usage data(ProteinSequences)
-#' @format A \code{list} with two elements, which are:
+#' @format A \code{tsibble} with four columns, which are:
 #' \describe{
-#' \item{\code{data}}{A list with 40 MTS.}
-#' \item{\code{classes}}{A numeric vector indicating the corresponding classes
-#' associated with the elements in \code{data}.}
+#' \item{\code{Value}}{The categorical values of the time series in the dataset.}
+#' \item{\code{Series}}{Integer values indicating the considered time series (there are 40 time series in the dataset).}
+#' \item{\code{Time}}{Integer values indicating the temporal indexes of the observations.}
+#' \item{\code{Class}}{Integer values indicating the class of each time series.}
 #' }
-#' @details Each element in \code{data} is a categorical time series
-#' containing three categories (amino-acids). The numeric vector \code{classes} is formed
+#' @details The column \code{Value} is the concatenation of 40 time series
+#' taking four categorical values (amino-acids). The column \code{Class} is formed
 #' by integers from 1 to 4, indicating that there are 4 different classes in the database. Each class is associated with a different
 #' family of viruses. For more information, see \insertCite{lopez2023hard;textual}{ctsfeatures}.
 #' @references{

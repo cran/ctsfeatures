@@ -5,13 +5,12 @@
 \alias{plot_cts}
 \title{Constructs a categorical time series plot}
 \usage{
-plot_cts(series, categories, title = "Time series plot")
+plot_cts(series, title = "Time series plot")
 }
 \arguments{
-\item{series}{A CTS.}
-
-\item{categories}{A vector of type factor containing the corresponding
-categories.}
+\item{series}{An object of type \code{tsibble} (see R package \code{tsibble}), whose column named Values
+contains the values of the corresponding CTS. This column must be of class \code{factor} and its levels
+must be determined by the range of the CTS.}
 
 \item{title}{The title of the graph.}
 }
@@ -25,8 +24,8 @@ The categorical time series plot.
 Constructs a categorial time series plot for a given CTS.
 }
 \examples{
-time_series_plot <- plot_cts(series = GeneticSequences$data[[1]][1 : 50],
-categories = factor(c('a', 'c', 'g', 't'))) # Constructs a categorical
+sequence_1 <- GeneticSequences[which(GeneticSequences$Series==1),]
+time_series_plot <- plot_cts(series = sequence_1) # Constructs a categorical
 # time series plot for the first 50 observations of the first  time series in
 # dataset GeneticSequences
 }

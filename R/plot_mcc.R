@@ -6,9 +6,9 @@
 #' \code{plot_mcc} constructs a control chart for the marginal distribution
 #' of a categorical series
 #'
-#' @param series A CTS.
-#' @param categories A vector of type factor containing the corresponding
-#' categories.
+#' @param series An object of type \code{tsibble} (see R package \code{tsibble}), whose column named Values
+#' contains the values of the corresponding CTS. This column must be of class \code{factor} and its levels
+#' must be determined by the range of the CTS.
 #' @param c The hypothetical marginal distribution.
 #' @param sigma A matrix containing the variances for each category (columns)
 #' and each time t (rows).
@@ -26,13 +26,14 @@
 #' @return If \code{plot = TRUE} (default), represents the control chart for the marginal distribution. Otherwise, the function
 #' returns a matrix with the values of the standardized statistics for each time t
 #' @examples
-#' cycle_md <- plot_mcc(series = SyntheticData1$data[[1]],
-#' categories = factor(c('1', '2', '3')), c = c(0.3, 0.3, 0.4),
+#' sequence_1 <- SyntheticData1[which(SyntheticData1$Series==1),]
+#' cycle_cc <- plot_ccc(series = sequence_1, mu_t = c(1, 1.5, 1),
+#' lcl_t = rep(10, 600), ucl_t = rep(10, 600))
+#' cycle_md <- plot_mcc(series = sequence_1, c = c(0.3, 0.3, 0.4),
 #' sigma = matrix(rep(c(1, 1, 1), 600), nrow = 600)) # Representing
 #' # a control chart for the marginal distribution
-#' cycle_md <- plot_mcc(series = SyntheticData1$data[[1]],
-#' categories = factor(c('1', '2', '3')), c = c(0.3, 0.3, 0.4),
-#' sigma = matrix(rep(c(1, 1, 1), 600), nrow = 600)) # Computing the
+#' cycle_md <- plot_mcc(series = sequence_1, c = c(0.3, 0.3, 0.4),
+#' sigma = matrix(rep(c(1, 1, 1), 600), nrow = 600), plot = FALSE) # Computing the
 #' # corresponding standardized statistic
 #' @details
 #' Constructs a control chart of a CTS with range \eqn{\mathcal{V}=\{1, \ldots, r\}} based on the marginal distribution. The chart relies on the
@@ -55,14 +56,15 @@
 #' }
 #' @export
 
-plot_mcc <- function(series, categories, c, sigma, lambda = 0.99, k = 3.3, min_max = FALSE,
+plot_mcc <- function(series, c, sigma, lambda = 0.99, k = 3.3, min_max = FALSE,
                                    plot = TRUE, title = 'Control chart (marginal)',...) {
 
   x1 <- y1 <- x2 <- y2 <- NULL
-  check_cts(series)
-  series_length <- length(series)
-  n_categories <- length(categories)
-  binarized_series <- binarization(series, categories = categories)
+  check_cts(series$Value)
+  series_length <- length(series$Value) # Series length
+  categories <- levels(series$Value)
+  n_cat <- length(categories) # Number of categories in the dataset
+  binarized_series <- binarization(series)
   matrix_c <- base::matrix(rep(c, series_length), nrow = series_length)
 
   ewma_estimator <- list()
@@ -70,7 +72,7 @@ plot_mcc <- function(series, categories, c, sigma, lambda = 0.99, k = 3.3, min_m
 
   for (i in 2 : (series_length + 1)) {
 
-    ewma_estimator[[i]] <- lambda %*% ewma_estimator[[i - 1]] + (1 - lambda) %*% binarized_series[(i -1),]
+    ewma_estimator[[i]] <- lambda %*% ewma_estimator[[i - 1]] + (1 - lambda) %*% binarized_series[(i-1),]
 
   }
 
@@ -83,7 +85,7 @@ plot_mcc <- function(series, categories, c, sigma, lambda = 0.99, k = 3.3, min_m
   df_plot_1 <- data.frame(x1 = 1 : series_length, y1 = 1)
   df_plot_2 <- data.frame(x2 = 1 : series_length, y2 = -1)
 
-  for (i in 1 : n_categories) {
+  for (i in 1 : n_cat) {
 
     temp_df_plot <- data.frame(x = x_values, y = series_t_statistic[, i], col = rep(categories[i], series_length))
     df_plot <- base::rbind(df_plot, temp_df_plot)

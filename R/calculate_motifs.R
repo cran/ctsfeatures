@@ -4,15 +4,15 @@
 #'
 #' \code{calculate_motifs} computes the motifs of a categorical time series
 #'
-#' @param series A CTS.
-#' @param categories A vector of type factor containing the corresponding
-#' categories.
+#' @param series An object of type \code{tsibble} (see R package \code{tsibble}), whose column named Values
+#' contains the values of the corresponding CTS. This column must be of class \code{factor} and its levels
+#' must be determined by the range of the CTS.
 #' @param motif_length The length of the motif.
 #' @return Returns an array with the relative frequency of motifs in a
 #' categorical time series.
 #' @examples
-#' calculate_motifs(GeneticSequences$data[[1]],
-#' categories = factor(c('a', 'c', 'g', 't')), motif_length = 3)
+#' sequence_1 <- GeneticSequences[which(GeneticSequences$Series==1),]
+#' calculate_motifs(sequence_1, motif_length = 3)
 #' # Computing the relative frequencies of motifs of length 3 for the first
 #' # series in dataset GeneticSequences
 #' @details
@@ -31,18 +31,20 @@
 #' }
 #' @export
 
-calculate_motifs <- function(series, categories, motif_length){
+calculate_motifs <- function(series, motif_length){
 
 
-  n_cat <- length(categories)
-  l_series <- length(series)
-  binarized_series <- binarization(series, categories = categories)
+  check_cts(series$Value)
+  series_length <- length(series$Value) # Series length
+  categories <- levels(series$Value)
+  n_cat <- length(categories) # Number of categories in the dataset
+  binarized_series <- binarization(series)
 
 
 
   if (motif_length == 2) {
 
-    n_motifs <- l_series - motif_length + 1
+    n_motifs <- series_length - motif_length + 1
     array_motifs <- array(0, dim = rep(n_cat, motif_length))
 
     for (i in 1 : n_cat) {
@@ -67,7 +69,7 @@ calculate_motifs <- function(series, categories, motif_length){
 
   if (motif_length == 3) {
 
-    n_motifs <- l_series - motif_length + 1
+    n_motifs <- series_length - motif_length + 1
     array_motifs <- array(0, dim = rep(n_cat, motif_length))
 
     for (i in 1 : n_cat) {
@@ -97,7 +99,7 @@ calculate_motifs <- function(series, categories, motif_length){
 
   if (motif_length == 4) {
 
-    n_motifs <- l_series - motif_length + 1
+    n_motifs <- series_length - motif_length + 1
     array_motifs <- array(0, dim = rep(n_cat, motif_length))
 
     for (i in 1 : n_cat) {

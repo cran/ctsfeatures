@@ -6,13 +6,12 @@
 \title{Constructs the binarized time series associated with a given
 categorical time series}
 \usage{
-binarization(series, categories)
+binarization(series)
 }
 \arguments{
-\item{series}{A CTS.}
-
-\item{categories}{A vector of type factor containing the corresponding
-categories.}
+\item{series}{An object of type \code{tsibble} (see R package \code{tsibble}), whose column named Values
+contains the values of the corresponding CTS. This column must be of class \code{factor} and its levels
+must be determined by the range of the CTS.}
 }
 \value{
 The binarized time series.
@@ -33,8 +32,8 @@ whose rows represent time observations and whose columns represent the
 categories in the original series
 }
 \examples{
-binarized_series <- binarization(GeneticSequences$data[[1]],
-categories = factor(c('a', 'c', 'g', 't'))) # Constructing the binarized
+sequence_1 <- GeneticSequences[which(GeneticSequences$Series==1),]
+binarized_series <- binarization(sequence_1) # Constructing the binarized
 # time series for the first CTS in dataset GeneticSequences
 }
 \references{

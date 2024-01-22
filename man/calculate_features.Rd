@@ -5,15 +5,14 @@
 \alias{calculate_features}
 \title{Computes several features associated with a categorical time series}
 \usage{
-calculate_features(series, n_series = NULL, categories, lag = 1, type = NULL)
+calculate_features(series, n_series = NULL, lag = 1, type = NULL)
 }
 \arguments{
-\item{series}{A CTS.}
+\item{series}{An object of type \code{tsibble} (see R package \code{tsibble}), whose column named Values
+contains the values of the corresponding CTS. This column must be of class \code{factor} and its levels
+must be determined by the range of the CTS.}
 
 \item{n_series}{A real-valued time series.}
-
-\item{categories}{A vector of type factor containing the corresponding
-categories.}
 
 \item{lag}{The considered lag (default is 1).}
 
@@ -100,12 +99,11 @@ The function computes the following quantities depending on the argument
 }
 }
 \examples{
-uc <- calculate_features(series = GeneticSequences$data[[1]],
-categories = factor(c('a', 'c', 'g', 't')), type = 'uncertainty_coefficient' )
+sequence_1 <- GeneticSequences[which(GeneticSequences$Series==1),]
+uc <- calculate_features(series = sequence_1, type = 'uncertainty_coefficient' )
 # Computing the uncertainty coefficient
 # for the first series in dataset GeneticSequences
-se <- calculate_features(series = GeneticSequences$data[[1]],
-categories = factor(c('a', 'c', 'g', 't')), type = 'spectral_envelope' )
+se <- calculate_features(series = sequence_1, type = 'spectral_envelope' )
 # Computing the spectral envelope
 # for the first series in dataset GeneticSequences
 }

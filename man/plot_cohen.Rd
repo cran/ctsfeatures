@@ -7,7 +7,6 @@
 \usage{
 plot_cohen(
   series,
-  categories,
   max_lag = 10,
   alpha = 0.05,
   plot = TRUE,
@@ -17,10 +16,9 @@ plot_cohen(
 )
 }
 \arguments{
-\item{series}{A CTS.}
-
-\item{categories}{A vector of type factor containing the corresponding
-categories.}
+\item{series}{An object of type \code{tsibble} (see R package \code{tsibble}), whose column named Values
+contains the values of the corresponding CTS. This column must be of class \code{factor} and its levels
+must be determined by the range of the CTS.}
 
 \item{max_lag}{The maximum lag represented in the plot (default is 10).}
 
@@ -54,11 +52,10 @@ of the test based on the following asymptotic approximation (under the i.i.d. as
 the series and \eqn{V(\boldsymbol {\widehat{p}})=1-\frac{1+2\sum_{i=1}^{r}\widehat{p}_i^3-3\sum_{i=1}^{r}\widehat{p}_i^2}{(1-\sum_{i=1}^{r}\widehat{p}_i^2)^2}}.
 }
 \examples{
-plot_ck <- plot_cohen(series = GeneticSequences$data[[1]],
-categories = factor(c('a', 'c', 'g', 't')), max_lag = 3) # Representing
+sequence_1 <- GeneticSequences[which(GeneticSequences$Series==1),]
+plot_ck <- plot_cohen(series = sequence_1, max_lag = 3) # Representing
 # the serial dependence plot
-list_ck <- plot_cohen(series = GeneticSequences$data[[1]],
-categories = factor(c('a', 'c', 'g', 't')), max_lag = 3, plot = FALSE) # Obtaining
+list_ck <- plot_cohen(series = sequence_1, max_lag = 3, plot = FALSE) # Obtaining
 # the values of Cohens's kappa, the critical value and the p-values
 }
 \references{

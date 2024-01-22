@@ -1,17 +1,16 @@
 
 
-auxiliary_cohens_kappa <- function(series, categories, max_lag = 10, alpha = 0.05) {
+auxiliary_cohens_kappa <- function(series, max_lag = 10, alpha = 0.05) {
 
-  series_length <- length(series)
-  vector_mp <- marginal_probabilities(series = series, categories = categories)
+  series_length <- length(series$Value)
+  vector_mp <- marginal_probabilities(series = series)
   vector_mp_2 <- vector_mp^2
   vector_mp_3 <- vector_mp^3
   values_cohens_kappa <- numeric(max_lag)
 
   for (i in 1 : max_lag) {
 
-    values_cohens_kappa[i] <- auxiliary_cohens_kappa_function(series = series, lag = i,
-                                       categories = categories)
+    values_cohens_kappa[i] <- auxiliary_cohens_kappa_function(series = series, lag = i)
 
   }
 

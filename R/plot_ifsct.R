@@ -6,18 +6,17 @@
 #' \code{plot_ifsct} constructs the IFS circle transformation of
 #' a categorical time series.
 #'
-#' @param series A CTS.
-#' @param categories A vector of type factor containing the corresponding
-#' categories.
+#' @param series An object of type \code{tsibble} (see R package \code{tsibble}), whose column named Values
+#' contains the values of the corresponding CTS. This column must be of class \code{factor} and its levels
+#' must be determined by the range of the CTS.
 #' @param alpha Parameter alpha in the circle transformation.
 #' @param beta  Parameter beta in the circle transformation.
 #' @param title The title of the graph.
 #' @param ... Additional parameters for the function.
 #' @return The IFS circle transformation.
 #' @examples
-#' ct <- plot_ifsct(GeneticSequences$data[[1]],
-#' categories = factor(c('a', 'c', 'g', 't')),
-#' alpha = 0.1, beta = 0.1) # Constructing the IFS circle transformation
+#' sequence_1 <- GeneticSequences[which(GeneticSequences$Series==1),]
+#' ct <- plot_ifsct(sequence_1, alpha = 0.1, beta = 0.1) # Constructing the IFS circle transformation
 #' # for the first CTS in dataset GeneticSequences
 #' @details
 #' Constructs the IFS circle transformation for a given CTS, which is
@@ -32,17 +31,18 @@
 #' }
 #' @export
 
-plot_ifsct <- function(series, categories, alpha, beta,
+plot_ifsct <- function(series, alpha, beta,
                                       title = 'IFS circle transformation',...) {
 
   x <- y <- z <- NULL
-  check_cts(series)
-  series_length <- length(series)
-  n_categories <- length(categories)
+  check_cts(series$Value)
+  series_length <- length(series$Value) # Series length
+  categories <- levels(series$Value)
+  n_cat <- length(categories) # Number of categories in the dataset
 
-  matrix_circle <- base::matrix(0, nrow = n_categories, ncol = 2)
+  matrix_circle <- base::matrix(0, nrow = n_cat, ncol = 2)
 
-  for (i in 1 : n_categories) {
+  for (i in 1 : n_cat) {
 
     matrix_circle[i,] <- c(cos(2 * pi * (i - 1)/i), sin(2 * pi * (i - 1)/i))
 
@@ -52,7 +52,7 @@ plot_ifsct <- function(series, categories, alpha, beta,
 
   for (i in 1 : series_length) {
 
-    transformed_series[i,] <- matrix_circle[as.numeric(series)[i],]
+    transformed_series[i,] <- matrix_circle[as.numeric(series$Value)[i],]
 
   }
 
@@ -65,7 +65,7 @@ plot_ifsct <- function(series, categories, alpha, beta,
 
   }
 
-  df_plot <- data.frame(x = fractal_series[,1], y = fractal_series[,2], z = series)
+  df_plot <- data.frame(x = fractal_series[,1], y = fractal_series[,2], z = series$Value)
   ifc_circle_plot <- ggplot2::ggplot(df_plot, ggplot2::aes(x = x, y = y, color = factor(z))) +
     ggplot2::geom_point() + ggplot2::ggtitle(title) +
    ggplot2::xlab('x-comp (fractal series)') +

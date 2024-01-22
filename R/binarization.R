@@ -6,13 +6,14 @@
 #' \code{binarization} constructs the binarized time series associated with a given
 #' categorical time series.
 #'
-#' @param series A CTS.
-#' @param categories A vector of type factor containing the corresponding
-#' categories.
+#' @param series An object of type \code{tsibble} (see R package \code{tsibble}), whose column named Values
+#' contains the values of the corresponding CTS. This column must be of class \code{factor} and its levels
+#' must be determined by the range of the CTS.
+#'
 #' @return The binarized time series.
 #' @examples
-#' binarized_series <- binarization(GeneticSequences$data[[1]],
-#' categories = factor(c('a', 'c', 'g', 't'))) # Constructing the binarized
+#' sequence_1 <- GeneticSequences[which(GeneticSequences$Series==1),]
+#' binarized_series <- binarization(sequence_1) # Constructing the binarized
 #' # time series for the first CTS in dataset GeneticSequences
 #' @details
 #' Given a CTS of length \eqn{T} with range \eqn{\mathcal{V}=\{1, 2, \ldots, r\}},
@@ -34,16 +35,17 @@
 #' }
 #' @export
 
-binarization <- function(series, categories) {
+binarization <- function(series) {
 
- check_cts(series)
- series_length <- length(series)
- n_categories <- length(categories)
- matrix_binarization <- base::matrix(0, nrow = series_length, ncol = n_categories)
+ check_cts(series$Value)
+ series_length <- length(series$Value) # Series length
+ categories <- levels(series$Value)
+ n_cat <- length(categories) # Number of categories in the dataset
+ matrix_binarization <- base::matrix(0, nrow = series_length, ncol = n_cat)
 
- for (i in 1 : n_categories) {
+ for (i in 1 : n_cat) {
 
-   matrix_binarization[,i][which(series == categories[i])] <- 1
+   matrix_binarization[,i][which(series$Value == categories[i])] <- 1
 
  }
 

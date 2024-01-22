@@ -5,9 +5,9 @@
 #' \code{plot_reg} constructs the rate evolution graph
 #' proposed by \insertCite{ribler1997visualizing;textual}{ctsfeatures}.
 #'
-#' @param series A CTS.
-#' @param categories A vector of type factor containing the corresponding
-#' categories.
+#' @param series An object of type \code{tsibble} (see R package \code{tsibble}), whose column named Values
+#' contains the values of the corresponding CTS. This column must be of class \code{factor} and its levels
+#' must be determined by the range of the CTS.
 #' @param title The title of the graph.
 #' @param linear_fit Logical. I \code{TRUE}, the corresponding least squares
 #' lines are incorporated to the graph
@@ -17,8 +17,8 @@
 #' @param ... Additional parameters for the function.
 #' @return The rate evolution graph.
 #' @examples
-#' reg <- plot_reg(GeneticSequences$data[[1]],
-#' categories = factor(c('a', 'c', 'g', 't'))) # Constructing the rate
+#' sequence_1 <- GeneticSequences[which(GeneticSequences$Series==1),]
+#' reg <- plot_reg(sequence_1) # Constructing the rate
 #' # evolution graph for the first time series in dataset GeneticSequences
 #' @details
 #' Given a CTS of length \eqn{T} with range \eqn{\mathcal{V}=\{1, 2, \ldots, r\}},
@@ -40,17 +40,18 @@
 #' }
 #' @export
 
-plot_reg <- function(series, categories, title = 'Rate evolution graph',
+plot_reg <- function(series, title = 'Rate evolution graph',
                      linear_fit = FALSE, cat_res = NULL, ...) {
 
   x <- y <- z <- NULL
-  check_cts(series)
-  series_length <- length(series) # Length of the series
-  n_cat <- length(unique(series)) # Number of categories of X
+  check_cts(series$Value)
+  series_length <- length(series$Value) # Series length
+  categories <- levels(series$Value)
+  n_cat <- length(categories) # Number of categories in the dataset
 
   # Computing the binarization of the CTS
 
-  bin_series <- binarization(series, categories = categories)
+  bin_series <- binarization(series)
 
   # Computing the matrix of cumulative sums
 

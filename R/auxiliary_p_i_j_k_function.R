@@ -2,9 +2,9 @@
 
 p_i_j_k_function <- function(series, i_cat, j_cat, k = 1) {
 
-series_length <- length(series)
-a <- series[(k + 1) : series_length]
-b <- series[1 : (series_length - k)]
+series_length <- length(series$Value) # Series length
+a <- series$Value[(k + 1) : series_length]
+b <- series$Value[1 : (series_length - k)]
 
 
 number <- series_length - k

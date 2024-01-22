@@ -5,14 +5,14 @@
 #' \code{joint_probabilities} returns a matrix with the joint
 #' probabilities of a categorical time series
 #'
-#' @param series A CTS.
+#' @param series An object of type \code{tsibble} (see R package \code{tsibble}), whose column named Values
+#' contains the values of the corresponding CTS. This column must be of class \code{factor} and its levels
+#' must be determined by the range of the CTS.
 #' @param lag The considered lag (default is 1).
-#' @param categories A vector of type factor containing the corresponding
-#' categories.
 #' @return A matrix with the joint probabilities.
 #' @examples
-#' matrix_jp <- joint_probabilities(series = GeneticSequences$data[[1]],
-#' categories = factor(c('a', 'c', 'g', 't'))) # Computing the matrix of
+#' sequence_1 <- GeneticSequences[which(GeneticSequences$Series==1),]
+#' matrix_jp <- joint_probabilities(series = sequence_1) # Computing the matrix of
 #' # joint probabilities for the first series in dataset GeneticSequences
 #' @details
 #' Given a CTS of length \eqn{T} with range \eqn{\mathcal{V}=\{1, 2, \ldots, r\}},
@@ -30,10 +30,12 @@
 #' }
 #' @export
 
-joint_probabilities <- function(series, lag = 1, categories) {
+joint_probabilities <- function(series, lag = 1) {
 
-  check_cts(series)
-  n_cat <- length(categories)
+  check_cts(series$Value)
+  series_length <- length(series$Value) # Series length
+  categories <- levels(series$Value)
+  n_cat <- length(categories) # Number of categories in the dataset
   matrix_joint_probabilities <- base::matrix(0, n_cat, n_cat)
 
   for (i in 1 : n_cat) {

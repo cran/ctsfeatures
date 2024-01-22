@@ -3,19 +3,21 @@
 #' @description Categorical time series (CTS) of sleep stages from different
 #' subjects
 #' @usage data(SleepStages)
-#' @format A \code{list} with two elements, which are:
+#' @format A \code{tsibble} with four columns, which are:
 #' \describe{
-#' \item{\code{data}}{A list with 62 MTS.}
-#' \item{\code{classes}}{A numeric vector indicating the corresponding classes
-#' associated with the elements in \code{data}.}
+#' \item{\code{Value}}{The categorical values of the time series in the dataset.}
+#' \item{\code{Series}}{Integer values indicating the considered time series (there are 62 time series in the dataset).}
+#' \item{\code{Time}}{Integer values indicating the temporal indexes of the observations.}
+#' \item{\code{Class}}{Integer values indicating the class of each time series.}
 #' }
-#' @details Each element in \code{data} is a categorical time series
-#' containing six categories (sleep stages). The numeric vector \code{classes} is formed
-#' by integers from 1 to 2, indicating that there are 2 different classes in the database. Each class is associated with a different
-#' sleep disease For more information, see \insertCite{li2022interpretable;textual}{ctsfeatures}.
+#' @details The column \code{Value} is the concatenation of 62 time series
+#' taking six categorical values (sleep stages). The column \code{Class} is formed
+#' by the integers 1 and 2 indicating that there are 2 different classes in the database. Each class is associated with a sleep
+#' disorder (class 1 refers to nocturnal frontal lobe epilepsy, while class refers 2 to REM behavior disorder).
+#' For more information, see \insertCite{lopez2023hard;textual}{ctsfeatures}.
 #' @references{
 #'
-#'   \insertRef{li2022interpretable}{ctsfeatures}
+#'   \insertRef{lopez2023hard}{ctsfeatures}
 #'
 #' }
 "SleepStages"

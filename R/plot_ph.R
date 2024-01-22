@@ -6,7 +6,9 @@
 #' \code{plot_ph} constructs the pattern histogram associated with a given category of a
 #' categorical time series.
 #'
-#' @param series A CTS.
+#' @param series An object of type \code{tsibble} (see R package \code{tsibble}), whose column named Values
+#' contains the values of the corresponding CTS. This column must be of class \code{factor} and its levels
+#' must be determined by the range of the CTS.
 #' @param category The selected category.
 #' @param plot Logical. If \code{plot = TRUE} (default), returns the pattern
 #' histogram. Otherwise, returns the frequencies of cycle lengths associated
@@ -15,10 +17,11 @@
 #' @param ... Additional parameters for the function.
 #' @return The pattern histogram.
 #' @examples
-#' ph <- plot_ph(GeneticSequences$data[[1]],
+#' sequence_1 <- GeneticSequences[which(GeneticSequences$Series==1),]
+#' ph <- plot_ph(sequence_1,
 #' category = 'a') # Constructing the pattern histogram
 #' # for the first CTS in dataset GeneticSequences concerning the category 'a'
-#' cycle_lengths <- plot_ph(GeneticSequences$data[[1]],
+#' cycle_lengths <- plot_ph(sequence_1,
 #' category = 'a', plot = FALSE) # Obtaining the frequencies of cycle lengths
 #' @details
 #' Constructs the pattern histogram for a specific category of a CTS. This graph
@@ -38,8 +41,11 @@ plot_ph <- function(series, category,
                               plot = TRUE,
                               title = paste0('Pattern histogram (', category, ')'), ...) {
   x <- NULL
-  check_cts(series)
-  indicator_series <- as.numeric(series == category)
+  check_cts(series$Value)
+  series_length <- length(series$Value) # Series length
+  categories <- levels(series$Value)
+  n_cat <- length(categories) # Number of categories in the dataset
+  indicator_series <- as.numeric(series$Value == category)
   position_1s <- which(indicator_series == 1)
   cycles <- base::diff(position_1s)
 

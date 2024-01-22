@@ -5,13 +5,13 @@
 #' \code{plot_se} represents the spectral envelope of
 #' a categorical time series
 #'
-#' @param series A CTS.
-#' @param categories A vector of type factor containing the corresponding
-#' categories.
+#' @param series An object of type \code{tsibble} (see R package \code{tsibble}), whose column named Values
+#' contains the values of the corresponding CTS. This column must be of class \code{factor} and its levels
+#' must be determined by the range of the CTS.
 #' @return Returns returns a plot of the spectral envelope.
 #' @examples
-#' plot_se(GeneticSequences$data[[1]],
-#' categories = factor(c('a', 'c', 'g', 't')))
+#' sequence_1 <- GeneticSequences[which(GeneticSequences$Series==1),]
+#' plot_se(sequence_1)
 #' # Representing the spectral envelope for the first series in dataset
 #' # GeneticSequences
 #' @details
@@ -26,9 +26,9 @@
 #' }
 #' @export
 
-plot_se <- function(series, categories) {
+plot_se <- function(series) {
 
-  binarized_series <- binarization(series, categories)
+  binarized_series <- binarization(series)
   auxiliary_spectral_envelope(binarized_series, plot = TRUE)
 
 }

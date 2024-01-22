@@ -1,17 +1,19 @@
 
 
-auxiliary_entropy <- function(series, categories, features = FALSE) {
+auxiliary_entropy <- function(series, features = FALSE) {
 
-  check_cts(series)
-  n_categories <- length(categories)
-  vector_mp <- marginal_probabilities(series = series, categories = categories)
+  check_cts(series$Value)
+  series_length <- length(series$Value) # Series length
+  categories <- levels(series$Value)
+  n_cat <- length(categories) # Number of categories in the dataset
+  vector_mp <- marginal_probabilities(series = series)
   vector_log_mp <- log(vector_mp)
   vector_product <- vector_mp * vector_log_mp
 
 
   if (features == FALSE) {
 
-    return((-1/log(n_categories)) * sum(vector_product))
+    return((-1/log(n_cat)) * sum(vector_product))
 
   } else {
 

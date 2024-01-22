@@ -8,7 +8,6 @@ series}
 \usage{
 plot_mcc(
   series,
-  categories,
   c,
   sigma,
   lambda = 0.99,
@@ -20,10 +19,9 @@ plot_mcc(
 )
 }
 \arguments{
-\item{series}{A CTS.}
-
-\item{categories}{A vector of type factor containing the corresponding
-categories.}
+\item{series}{An object of type \code{tsibble} (see R package \code{tsibble}), whose column named Values
+contains the values of the corresponding CTS. This column must be of class \code{factor} and its levels
+must be determined by the range of the CTS.}
 
 \item{c}{The hypothetical marginal distribution.}
 
@@ -68,13 +66,14 @@ An out-of-control alarm is signalled if the statistics are below -1 or
 above 1.
 }
 \examples{
-cycle_md <- plot_mcc(series = SyntheticData1$data[[1]],
-categories = factor(c('1', '2', '3')), c = c(0.3, 0.3, 0.4),
+sequence_1 <- SyntheticData1[which(SyntheticData1$Series==1),]
+cycle_cc <- plot_ccc(series = sequence_1, mu_t = c(1, 1.5, 1),
+lcl_t = rep(10, 600), ucl_t = rep(10, 600))
+cycle_md <- plot_mcc(series = sequence_1, c = c(0.3, 0.3, 0.4),
 sigma = matrix(rep(c(1, 1, 1), 600), nrow = 600)) # Representing
 # a control chart for the marginal distribution
-cycle_md <- plot_mcc(series = SyntheticData1$data[[1]],
-categories = factor(c('1', '2', '3')), c = c(0.3, 0.3, 0.4),
-sigma = matrix(rep(c(1, 1, 1), 600), nrow = 600)) # Computing the
+cycle_md <- plot_mcc(series = sequence_1, c = c(0.3, 0.3, 0.4),
+sigma = matrix(rep(c(1, 1, 1), 600), nrow = 600), plot = FALSE) # Computing the
 # corresponding standardized statistic
 }
 \references{

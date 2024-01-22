@@ -5,13 +5,12 @@
 \alias{marginal_probabilities}
 \title{Computes the marginal probabilities of a categorical time series}
 \usage{
-marginal_probabilities(series, categories)
+marginal_probabilities(series)
 }
 \arguments{
-\item{series}{A CTS.}
-
-\item{categories}{A vector of type factor containing the corresponding
-categories.}
+\item{series}{An object of type \code{tsibble} (see R package \code{tsibble}), whose column named Values
+contains the values of the corresponding CTS. This column must be of class \code{factor} and its levels
+must be determined by the range of the CTS.}
 }
 \value{
 A vector with the marginal probabilities.
@@ -28,8 +27,8 @@ with \eqn{\widehat{p}_i=\frac{N_i}{T}}, where \eqn{N_i} is the number
 of elements equal to \eqn{i} in the realization \eqn{\overline{X}_t}.
 }
 \examples{
-vector_mp <- marginal_probabilities(series = GeneticSequences$data[[1]],
-categories = factor(c('a', 'c', 'g', 't'))) # Computing the vector of
+sequence_1 <- GeneticSequences[which(GeneticSequences$Series==1),]
+vector_mp <- marginal_probabilities(series = sequence_1) # Computing the vector of
 # marginal probabilities for the first series in dataset GeneticSequences
 }
 \references{

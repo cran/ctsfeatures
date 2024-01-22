@@ -4,9 +4,9 @@
 #'
 #' \code{plot_ccc} constructs a control chart for the cycle lengths of a categorical series
 #'
-#' @param series A CTS.
-#' @param categories A vector of type factor containing the corresponding
-#' categories.
+#' @param series An object of type \code{tsibble} (see R package \code{tsibble}), whose column named Values
+#' contains the values of the corresponding CTS. This column must be of class \code{factor} and its levels
+#' must be determined by the range of the CTS.
 #' @param mu_t The mean of the process measuring the cycle lengths.
 #' @param lcl_t The lower control limit.
 #' @param ucl_t The upper control limit.
@@ -17,12 +17,11 @@
 #' @return If \code{plot = TRUE} (default), represents the control chart for the cycle lengths. Otherwise, the function
 #' returns a matrix with the values of the standardized statistic for each time t
 #' @examples
-#' cycle_cc <- plot_ccc(series = SyntheticData1$data[[1]],
-#' categories = factor(c('1', '2', '3')), mu_t = c(1, 1.5, 1),
+#' sequence_1 <- SyntheticData1[which(SyntheticData1$Series==1),]
+#' cycle_cc <- plot_ccc(series = sequence_1, mu_t = c(1, 1.5, 1),
 #' lcl_t = rep(10, 600), ucl_t = rep(10, 600)) # Representing
 #' # a control chart for the cycle lengths
-#' cycle_cc <- plot_ccc(series = SyntheticData1$data[[1]],
-#' categories = factor(c('1', '2', '3')), mu_t = c(1, 1.5, 1),
+#' cycle_cc <- plot_ccc(series = sequence_1, mu_t = c(1, 1.5, 1),
 #' lcl_t = rep(10, 600), ucl_t = rep(10, 600), plot = FALSE) # Computing the
 #' # corresponding standardized statistic
 #' @details
@@ -43,18 +42,19 @@
 #' }
 #' @export
 
-plot_ccc <- function(series, categories, mu_t, lcl_t, ucl_t,
+plot_ccc <- function(series, mu_t, lcl_t, ucl_t,
                              plot = TRUE, title = 'Control chart (cycles)',...) {
 
   x <- y <- NULL
-  check_cts(series)
-  series_length <- length(series)
-  n_categories <- length(categories)
+  check_cts(series$Value)
+  series_length <- length(series$Value) # Series length
+  categories <- levels(series$Value)
+  n_cat <- length(categories) # Number of categories in the dataset
   list_series_cycles <- list()
 
-  for (i in 1 : n_categories) {
+  for (i in 1 : n_cat) {
 
-  indicator_series <- as.numeric(series == categories[i])
+  indicator_series <- as.numeric(series$Value == categories[i])
   position_1s <- which(indicator_series == 1)
   cycles <- base::diff(position_1s)
   list_series_cycles[[i]] <- numeric(series_length)

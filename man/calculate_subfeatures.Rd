@@ -5,15 +5,14 @@
 \alias{calculate_subfeatures}
 \title{Computes several subfeatures associated with a categorical time series}
 \usage{
-calculate_subfeatures(series, n_series, categories, lag = 1, type = NULL)
+calculate_subfeatures(series, n_series, lag = 1, type = NULL)
 }
 \arguments{
-\item{series}{A CTS.}
+\item{series}{An object of type \code{tsibble} (see R package \code{tsibble}), whose column named Values
+contains the values of the corresponding CTS. This column must be of class \code{factor} and its levels
+must be determined by the range of the CTS.}
 
 \item{n_series}{A real-valued time series.}
-
-\item{categories}{A vector of type factor containing the corresponding
-categories.}
 
 \item{lag}{The considered lag (default is 1).}
 
@@ -89,12 +88,11 @@ The function computes the following subfeatures depending on the argument
 }
 }
 \examples{
-suc <- calculate_subfeatures(series = GeneticSequences$data[[1]],
-categories = factor(c('a', 'c', 'g', 't')), type = 'uncertainty_coefficient' )
+sequence_1 <- GeneticSequences[which(GeneticSequences$Series==1),]
+suc <- calculate_subfeatures(series = sequence_1, type = 'uncertainty_coefficient')
 # Computing the subfeatures associated with the uncertainty coefficient
 # for the first series in dataset GeneticSequences
-scv <- calculate_subfeatures(series = GeneticSequences$data[[1]],
-categories = factor(c('a', 'c', 'g', 't')), type = 'cramers_vi' )
+scv <- calculate_subfeatures(series = sequence_1, type = 'cramers_vi' )
 # Computing the subfeatures associated with the cramers vi
 # for the first series in dataset GeneticSequences
 }

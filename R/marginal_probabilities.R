@@ -5,13 +5,13 @@
 #' \code{marginal_probabilities} returns a vector with the marginal
 #' probabilities of a categorical time series
 #'
-#' @param series A CTS.
-#' @param categories A vector of type factor containing the corresponding
-#' categories.
+#' @param series An object of type \code{tsibble} (see R package \code{tsibble}), whose column named Values
+#' contains the values of the corresponding CTS. This column must be of class \code{factor} and its levels
+#' must be determined by the range of the CTS.
 #' @return A vector with the marginal probabilities.
 #' @examples
-#' vector_mp <- marginal_probabilities(series = GeneticSequences$data[[1]],
-#' categories = factor(c('a', 'c', 'g', 't'))) # Computing the vector of
+#' sequence_1 <- GeneticSequences[which(GeneticSequences$Series==1),]
+#' vector_mp <- marginal_probabilities(series = sequence_1) # Computing the vector of
 #' # marginal probabilities for the first series in dataset GeneticSequences
 #' @details
 #' Given a CTS of length \eqn{T} with range \eqn{\mathcal{V}=\{1, 2, \ldots, r\}},
@@ -29,11 +29,11 @@
 #' }
 #' @export
 
-marginal_probabilities <- function(series, categories) {
+marginal_probabilities <- function(series) {
 
-  check_cts(series)
-  series <- factor(series, levels = levels(categories))
-  series_length <- length(series) # Series length
+  check_cts(series$Value)
+  series_length <- length(series$Value) # Series length
+  categories <- levels(series$Value)
   n_cat <- length(categories) # Number of categories in the dataset
 
 

@@ -1,13 +1,15 @@
 
 
-auxiliary_chebycheff_dispersion <- function(series, categories) {
+auxiliary_chebycheff_dispersion <- function(series) {
 
-  check_cts(series)
-  n_categories <- length(categories)
-  vector_mp <- marginal_probabilities(series = series, categories = categories)
+  check_cts(series$Value)
+  categories <- levels(series$Value)
+  n_cat <- length(categories) # Number of categories in the dataset
+  vector_mp <- marginal_probabilities(series = series)
   max_mp <- max(vector_mp)
 
 
-  return((n_categories/(n_categories - 1)) * (1 - max_mp))
+  return((n_cat/(n_cat - 1)) * (1 - max_mp))
 
 }
+

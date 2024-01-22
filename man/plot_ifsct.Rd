@@ -6,20 +6,12 @@
 \title{Constructs the IFS circle transformation of a
 categorical time series}
 \usage{
-plot_ifsct(
-  series,
-  categories,
-  alpha,
-  beta,
-  title = "IFS circle transformation",
-  ...
-)
+plot_ifsct(series, alpha, beta, title = "IFS circle transformation", ...)
 }
 \arguments{
-\item{series}{A CTS.}
-
-\item{categories}{A vector of type factor containing the corresponding
-categories.}
+\item{series}{An object of type \code{tsibble} (see R package \code{tsibble}), whose column named Values
+contains the values of the corresponding CTS. This column must be of class \code{factor} and its levels
+must be determined by the range of the CTS.}
 
 \item{alpha}{Parameter alpha in the circle transformation.}
 
@@ -41,9 +33,8 @@ Constructs the IFS circle transformation for a given CTS, which is
 useful to identify cycles of arbitrary length.
 }
 \examples{
-ct <- plot_ifsct(GeneticSequences$data[[1]],
-categories = factor(c('a', 'c', 'g', 't')),
-alpha = 0.1, beta = 0.1) # Constructing the IFS circle transformation
+sequence_1 <- GeneticSequences[which(GeneticSequences$Series==1),]
+ct <- plot_ifsct(sequence_1, alpha = 0.1, beta = 0.1) # Constructing the IFS circle transformation
 # for the first CTS in dataset GeneticSequences
 }
 \references{

@@ -15,7 +15,9 @@ plot_ph(
 )
 }
 \arguments{
-\item{series}{A CTS.}
+\item{series}{An object of type \code{tsibble} (see R package \code{tsibble}), whose column named Values
+contains the values of the corresponding CTS. This column must be of class \code{factor} and its levels
+must be determined by the range of the CTS.}
 
 \item{category}{The selected category.}
 
@@ -40,10 +42,11 @@ represents the frequencies of the cycles for the corresponding category accordin
 to their length.
 }
 \examples{
-ph <- plot_ph(GeneticSequences$data[[1]],
+sequence_1 <- GeneticSequences[which(GeneticSequences$Series==1),]
+ph <- plot_ph(sequence_1,
 category = 'a') # Constructing the pattern histogram
 # for the first CTS in dataset GeneticSequences concerning the category 'a'
-cycle_lengths <- plot_ph(GeneticSequences$data[[1]],
+cycle_lengths <- plot_ph(sequence_1,
 category = 'a', plot = FALSE) # Obtaining the frequencies of cycle lengths
 }
 \references{
