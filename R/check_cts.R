@@ -22,11 +22,20 @@ check_cts <- function(X) {
 
   # The element can not contain NA entries
 
-  check_nas <- sum(is.na(X))
+  check_nas <- sum(is.na(X$Value))
 
   if (sum(check_nas) != 0) {
 
     stop('There are some NAs in the series')
+
+  }
+
+  check_tsibble <- tsibble::is_tsibble(X)
+
+
+  if (!check_tsibble) {
+
+    stop('Please, give a tsibble object as input')
 
   }
 

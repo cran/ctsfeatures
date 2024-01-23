@@ -4,7 +4,7 @@
 #'
 #' \code{plot_ccc} constructs a control chart for the cycle lengths of a categorical series
 #'
-#' @param series An object of type \code{tsibble} (see R package \code{tsibble}), whose column named Values
+#' @param series An object of type \code{tsibble} (see R package \code{tsibble}), whose column named Value
 #' contains the values of the corresponding CTS. This column must be of class \code{factor} and its levels
 #' must be determined by the range of the CTS.
 #' @param mu_t The mean of the process measuring the cycle lengths.
@@ -46,7 +46,7 @@ plot_ccc <- function(series, mu_t, lcl_t, ucl_t,
                              plot = TRUE, title = 'Control chart (cycles)',...) {
 
   x <- y <- NULL
-  check_cts(series$Value)
+  check_cts(series)
   series_length <- length(series$Value) # Series length
   categories <- levels(series$Value)
   n_cat <- length(categories) # Number of categories in the dataset

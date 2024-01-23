@@ -2,7 +2,6 @@
 
 auxiliary_chebycheff_dispersion <- function(series) {
 
-  check_cts(series$Value)
   categories <- levels(series$Value)
   n_cat <- length(categories) # Number of categories in the dataset
   vector_mp <- marginal_probabilities(series = series)

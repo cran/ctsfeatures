@@ -16,7 +16,7 @@ plot_cohen(
 )
 }
 \arguments{
-\item{series}{An object of type \code{tsibble} (see R package \code{tsibble}), whose column named Values
+\item{series}{An object of type \code{tsibble} (see R package \code{tsibble}), whose column named Value
 contains the values of the corresponding CTS. This column must be of class \code{factor} and its levels
 must be determined by the range of the CTS.}
 

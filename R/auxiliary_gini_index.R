@@ -2,7 +2,6 @@
 
 auxiliary_gini_index <- function(series) {
 
-  check_cts(series$Value)
   series_length <- length(series$Value) # Series length
   categories <- levels(series$Value)
   n_cat <- length(categories) # Number of categories in the dataset

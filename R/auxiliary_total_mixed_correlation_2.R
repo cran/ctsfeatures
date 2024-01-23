@@ -2,8 +2,6 @@
 
 auxiliary_total_mixed_correlation_2 <- function(c_series, n_series, lag = 1, features = FALSE) {
 
-  check_cts(c_series$Value)
-  check_cts(n_series$Value)
   series_length <- length(c_series$Value) # Series length
   categories <- levels(c_series$Value)
   n_cat <- length(categories) # Number of categories in the dataset

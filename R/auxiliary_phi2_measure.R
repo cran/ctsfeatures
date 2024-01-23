@@ -2,7 +2,6 @@
 
 auxiliary_phi2_measure <- function(series, lag = 1, features = FALSE) {
 
-  check_cts(series$Value)
   vector_mp <- marginal_probabilities(series = series)
   matrix_mp <- vector_mp %*% t(vector_mp)
   matrix_jp <- joint_probabilities(series = series, lag = lag)

@@ -5,7 +5,7 @@
 #' \code{plot_reg} constructs the rate evolution graph
 #' proposed by \insertCite{ribler1997visualizing;textual}{ctsfeatures}.
 #'
-#' @param series An object of type \code{tsibble} (see R package \code{tsibble}), whose column named Values
+#' @param series An object of type \code{tsibble} (see R package \code{tsibble}), whose column named Value
 #' contains the values of the corresponding CTS. This column must be of class \code{factor} and its levels
 #' must be determined by the range of the CTS.
 #' @param title The title of the graph.
@@ -44,7 +44,7 @@ plot_reg <- function(series, title = 'Rate evolution graph',
                      linear_fit = FALSE, cat_res = NULL, ...) {
 
   x <- y <- z <- NULL
-  check_cts(series$Value)
+  check_cts(series)
   series_length <- length(series$Value) # Series length
   categories <- levels(series$Value)
   n_cat <- length(categories) # Number of categories in the dataset

@@ -2,7 +2,6 @@
 
 auxiliary_cramers_vi <- function(series, max_lag = 10, alpha = 0.05) {
 
-  check_cts(series$Value)
   series_length <- length(series$Value) # Series length
   categories <- levels(series$Value)
   n_cat <- length(categories) # Number of categories in the dataset

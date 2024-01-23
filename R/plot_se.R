@@ -5,7 +5,7 @@
 #' \code{plot_se} represents the spectral envelope of
 #' a categorical time series
 #'
-#' @param series An object of type \code{tsibble} (see R package \code{tsibble}), whose column named Values
+#' @param series An object of type \code{tsibble} (see R package \code{tsibble}), whose column named Value
 #' contains the values of the corresponding CTS. This column must be of class \code{factor} and its levels
 #' must be determined by the range of the CTS.
 #' @return Returns returns a plot of the spectral envelope.
@@ -28,6 +28,7 @@
 
 plot_se <- function(series) {
 
+  check_cts(series)
   binarized_series <- binarization(series)
   auxiliary_spectral_envelope(binarized_series, plot = TRUE)
 
