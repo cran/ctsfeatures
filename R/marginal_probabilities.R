@@ -43,7 +43,7 @@ marginal_probabilities <- function(series) {
 
   for (i in 1 : n_cat) {
 
-    count_i <- sum(series == categories[[i]])
+    count_i <- sum(series$Value == categories[[i]])
     marginal_probabilities[i] <- count_i/series_length
 
   }

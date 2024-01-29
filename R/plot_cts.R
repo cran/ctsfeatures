@@ -37,7 +37,7 @@ plot_cts <- function(series, title = 'Time series plot') {
 
   for (i in 1 : n_cat) {
 
-    indexes_i <- which(series == categories[i])
+    indexes_i <- which(series$Value == categories[i])
     numeric_series[indexes_i] <- i
 
   }

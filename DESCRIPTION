@@ -1,7 +1,7 @@
 Package: ctsfeatures
 Type: Package
 Title: Analyzing Categorical Time Series
-Version: 1.2.1
+Version: 1.2.2
 Authors@R: c(
     person("Angel", "Lopez-Oriona", email = "oriona38@hotmail.com", 
     role = c("aut", "cre")),
@@ -25,9 +25,9 @@ RdMacros: Rdpack
 NeedsCompilation: no
 Suggests: testthat (>= 3.0.0)
 Config/testthat/edition: 3
-Packaged: 2024-01-23 06:31:46 UTC; lopezoa
+Packaged: 2024-01-29 05:34:41 UTC; lopezoa
 Author: Angel Lopez-Oriona [aut, cre],
   Jose A. Vilar [aut]
 Maintainer: Angel Lopez-Oriona <oriona38@hotmail.com>
 Repository: CRAN
-Date/Publication: 2024-01-23 08:22:47 UTC
+Date/Publication: 2024-01-29 13:30:08 UTC
